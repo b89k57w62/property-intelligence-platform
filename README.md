@@ -9,11 +9,30 @@ Real estate data query and AI-powered property valuation system.
 
 ## Quick Start - Backend
 
-### Prerequisites
+### Option 1: Docker (Recommended)
+
+```bash
+# Start all services (Backend + MySQL)
+docker-compose up -d
+
+# View logs
+docker-compose logs -f backend
+
+# Stop services
+docker-compose down
+```
+
+**Services:**
+- Backend API: `http://localhost:8000/api/v1/docs`
+- phpMyAdmin (dev): `http://localhost:8080` (use `docker-compose --profile dev up`)
+
+### Option 2: Local Development
+
+#### Prerequisites
 - Python 3.11+
 - MySQL 8.0+
 
-### Installation
+#### Installation
 
 ```bash
 cd backend
@@ -30,7 +49,7 @@ cp .env.example .env
 # Edit .env with your MySQL credentials
 ```
 
-### Database Setup
+#### Database Setup
 
 ```bash
 # Create database
@@ -40,7 +59,7 @@ mysql -u root -p -e "CREATE DATABASE property_db CHARACTER SET utf8mb4 COLLATE u
 alembic upgrade head
 ```
 
-### Run Development Server
+#### Run Development Server
 
 ```bash
 uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
