@@ -38,6 +38,11 @@ def import_single_file(file_path: str, db, batch_size: int = 1000) -> int:
                     if pd.notna(row["transaction_pen_number"])
                     else None
                 ),
+                transaction_target=(
+                    row["transaction_target"]
+                    if pd.notna(row["transaction_target"])
+                    else None
+                ),
                 # Area Info
                 land_area_sqm=(
                     row["land_area_sqm"] if pd.notna(row["land_area_sqm"]) else None
@@ -63,6 +68,9 @@ def import_single_file(file_path: str, db, batch_size: int = 1000) -> int:
                     else None
                 ),
                 # Building Info
+                building_type=(
+                    row["building_type"] if pd.notna(row["building_type"]) else None
+                ),
                 main_use=row["main_use"] if pd.notna(row["main_use"]) else None,
                 main_building_materials=(
                     row["main_building_materials"]
@@ -78,6 +86,19 @@ def import_single_file(file_path: str, db, batch_size: int = 1000) -> int:
                     row["building_area_sqm"]
                     if pd.notna(row["building_area_sqm"])
                     else None
+                ),
+                main_building_area=(
+                    row["main_building_area"]
+                    if pd.notna(row["main_building_area"])
+                    else None
+                ),
+                auxiliary_building_area=(
+                    row["auxiliary_building_area"]
+                    if pd.notna(row["auxiliary_building_area"])
+                    else None
+                ),
+                balcony_area=(
+                    row["balcony_area"] if pd.notna(row["balcony_area"]) else None
                 ),
                 building_rooms=(
                     int(row["building_rooms"])
@@ -104,6 +125,9 @@ def import_single_file(file_path: str, db, batch_size: int = 1000) -> int:
                     if pd.notna(row["has_management"])
                     else None
                 ),
+                has_elevator=(
+                    bool(row["has_elevator"]) if pd.notna(row["has_elevator"]) else None
+                ),
                 # Price Info
                 total_floor_number=(
                     int(row["total_floor_number"])
@@ -118,6 +142,9 @@ def import_single_file(file_path: str, db, batch_size: int = 1000) -> int:
                 total_price_ntd=row["total_price_ntd"],
                 unit_price_ntd=(
                     row["unit_price_ntd"] if pd.notna(row["unit_price_ntd"]) else None
+                ),
+                parking_type=(
+                    row["parking_type"] if pd.notna(row["parking_type"]) else None
                 ),
                 parking_area_sqm=(
                     row["parking_area_sqm"]
