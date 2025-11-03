@@ -11,8 +11,8 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE:-property_db}
       MYSQL_USER: ${MYSQL_USER:-property_user}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD:-property_password}
-    ports:
-      - "3306:3306"
+    # ports:
+    #   - "3306:3306"  # Commented out to avoid conflict with local MySQL
     volumes:
       - mysql_data:/var/lib/mysql
       - ./init-db:/docker-entrypoint-initdb.d  # For SQL initialization scripts

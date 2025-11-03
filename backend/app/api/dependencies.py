@@ -33,11 +33,11 @@ def get_pagination_params(
     if skip < 0:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Skip parameter must be non-negative"
+            detail="Skip parameter must be non-negative",
         )
     if limit <= 0 or limit > 100:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Limit must be between 1 and 100"
+            detail="Limit must be between 1 and 100",
         )
     return {"skip": skip, "limit": limit}
