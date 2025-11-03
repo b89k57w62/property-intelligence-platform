@@ -94,12 +94,8 @@ def upgrade() -> None:
             nullable=True,
             comment="建物移轉總面積平方公尺",
         ),
-        sa.Column(
-            "building_rooms", sa.Integer(), nullable=True, comment="建物現況格局-房"
-        ),
-        sa.Column(
-            "building_halls", sa.Integer(), nullable=True, comment="建物現況格局-廳"
-        ),
+        sa.Column("building_rooms", sa.Integer(), nullable=True, comment="建物現況格局-房"),
+        sa.Column("building_halls", sa.Integer(), nullable=True, comment="建物現況格局-廳"),
         sa.Column(
             "building_bathrooms", sa.Integer(), nullable=True, comment="建物現況格局-衛"
         ),
@@ -109,12 +105,8 @@ def upgrade() -> None:
             nullable=True,
             comment="建物現況格局-隔間 (有/無)",
         ),
-        sa.Column(
-            "has_management", sa.Boolean(), nullable=True, comment="有無管理組織"
-        ),
-        sa.Column(
-            "total_floor_number", sa.Integer(), nullable=True, comment="總樓層數"
-        ),
+        sa.Column("has_management", sa.Boolean(), nullable=True, comment="有無管理組織"),
+        sa.Column("total_floor_number", sa.Integer(), nullable=True, comment="總樓層數"),
         sa.Column(
             "building_floor_number",
             sa.String(length=50),
@@ -146,9 +138,7 @@ def upgrade() -> None:
             comment="車位總價元",
         ),
         sa.Column("remarks", sa.Text(), nullable=True, comment="備註"),
-        sa.Column(
-            "serial_number", sa.String(length=100), nullable=True, comment="編號"
-        ),
+        sa.Column("serial_number", sa.String(length=100), nullable=True, comment="編號"),
         sa.PrimaryKeyConstraint("id"),
     )
     op.create_index("idx_area_range", "properties", ["building_area_sqm"], unique=False)
