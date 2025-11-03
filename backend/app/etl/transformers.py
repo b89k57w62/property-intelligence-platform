@@ -14,11 +14,11 @@ def parse_roc_date(date_str) -> str:
 
 
 def to_numeric(value):
-    return pd.to_numeric(value, errors='coerce')
+    return pd.to_numeric(value, errors="coerce")
 
 
 def clean_string(value: str) -> str:
-    if pd.isna(value) or value == '':
+    if pd.isna(value) or value == "":
         return None
     return str(value).strip()
 
@@ -26,4 +26,4 @@ def clean_string(value: str) -> str:
 def has_content(value) -> bool:
     if pd.isna(value):
         return False
-    return str(value).strip() != ''
+    return str(value).strip() != ""

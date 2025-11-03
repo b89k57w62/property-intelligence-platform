@@ -17,46 +17,123 @@ def import_single_file(file_path: str, db, batch_size: int = 1000) -> int:
     imported_count = 0
 
     for i in range(0, total_records, batch_size):
-        batch_df = df.iloc[i:i+batch_size]
+        batch_df = df.iloc[i : i + batch_size]
         properties = []
 
         for _, row in batch_df.iterrows():
             prop = Property(
-                city=row['city'] if pd.notna(row['city']) else None,
-                district=row['district'],
-                transaction_target=row['transaction_target'] if pd.notna(row['transaction_target']) else None,
-                address=row['address'] if pd.notna(row['address']) else None,
-                transaction_date=row['transaction_date'],
-                transaction_count=row['transaction_count'] if pd.notna(row['transaction_count']) else None,
-                land_area_sqm=row['land_area_sqm'] if pd.notna(row['land_area_sqm']) else None,
-                urban_land_use=row['urban_land_use'] if pd.notna(row['urban_land_use']) else None,
-                non_urban_land_use=row['non_urban_land_use'] if pd.notna(row['non_urban_land_use']) else None,
-                non_urban_land_use_code=row['non_urban_land_use_code'] if pd.notna(row['non_urban_land_use_code']) else None,
-                building_type=row['building_type'] if pd.notna(row['building_type']) else None,
-                main_usage=row['main_usage'] if pd.notna(row['main_usage']) else None,
-                main_material=row['main_material'] if pd.notna(row['main_material']) else None,
-                construction_date=row['construction_date'] if pd.notna(row['construction_date']) else None,
-                floor_transfer=row['floor_transfer'] if pd.notna(row['floor_transfer']) else None,
-                total_floors=int(row['total_floors']) if pd.notna(row['total_floors']) else None,
-                building_area_sqm=row['building_area_sqm'] if pd.notna(row['building_area_sqm']) else None,
-                main_building_area=row['main_building_area'] if pd.notna(row['main_building_area']) else None,
-                auxiliary_area=row['auxiliary_area'] if pd.notna(row['auxiliary_area']) else None,
-                balcony_area=row['balcony_area'] if pd.notna(row['balcony_area']) else None,
-                room_count=int(row['room_count']) if pd.notna(row['room_count']) else None,
-                living_count=int(row['living_count']) if pd.notna(row['living_count']) else None,
-                bathroom_count=int(row['bathroom_count']) if pd.notna(row['bathroom_count']) else None,
-                compartment=row['compartment'] if pd.notna(row['compartment']) else None,
-                total_price_ntd=int(row['total_price_ntd']),
-                unit_price_sqm=row['unit_price_sqm'] if pd.notna(row['unit_price_sqm']) else None,
-                parking_type=row['parking_type'] if pd.notna(row['parking_type']) else None,
-                parking_area_sqm=row['parking_area_sqm'] if pd.notna(row['parking_area_sqm']) else None,
-                parking_price_ntd=int(row['parking_price_ntd']) if pd.notna(row['parking_price_ntd']) else None,
-                has_elevator=row['has_elevator'] if pd.notna(row['has_elevator']) else None,
-                has_management=row['has_management'] if pd.notna(row['has_management']) else None,
-                has_note=row['has_note'] if pd.notna(row['has_note']) else None,
-                note=row['note'] if pd.notna(row['note']) else None,
-                serial_number=row['serial_number'] if pd.notna(row['serial_number']) else None,
-                transfer_number=row['transfer_number'] if pd.notna(row['transfer_number']) else None,
+                # Location
+                city=row["city"],
+                district=row["district"],
+                land_location=(
+                    row["land_location"] if pd.notna(row["land_location"]) else None
+                ),
+                land_section=(
+                    row["land_section"] if pd.notna(row["land_section"]) else None
+                ),
+                # Transaction Info
+                transaction_date=row["transaction_date"],
+                transaction_pen_number=(
+                    row["transaction_pen_number"]
+                    if pd.notna(row["transaction_pen_number"])
+                    else None
+                ),
+                # Area Info
+                land_area_sqm=(
+                    row["land_area_sqm"] if pd.notna(row["land_area_sqm"]) else None
+                ),
+                urban_land_use_type=(
+                    row["urban_land_use_type"]
+                    if pd.notna(row["urban_land_use_type"])
+                    else None
+                ),
+                non_urban_land_use_type=(
+                    row["non_urban_land_use_type"]
+                    if pd.notna(row["non_urban_land_use_type"])
+                    else None
+                ),
+                non_urban_land_use_category=(
+                    row["non_urban_land_use_category"]
+                    if pd.notna(row["non_urban_land_use_category"])
+                    else None
+                ),
+                transaction_purpose=(
+                    row["transaction_purpose"]
+                    if pd.notna(row["transaction_purpose"])
+                    else None
+                ),
+                # Building Info
+                main_use=row["main_use"] if pd.notna(row["main_use"]) else None,
+                main_building_materials=(
+                    row["main_building_materials"]
+                    if pd.notna(row["main_building_materials"])
+                    else None
+                ),
+                construction_complete_date=(
+                    row["construction_complete_date"]
+                    if pd.notna(row["construction_complete_date"])
+                    else None
+                ),
+                building_area_sqm=(
+                    row["building_area_sqm"]
+                    if pd.notna(row["building_area_sqm"])
+                    else None
+                ),
+                building_rooms=(
+                    int(row["building_rooms"])
+                    if pd.notna(row["building_rooms"])
+                    else None
+                ),
+                building_halls=(
+                    int(row["building_halls"])
+                    if pd.notna(row["building_halls"])
+                    else None
+                ),
+                building_bathrooms=(
+                    int(row["building_bathrooms"])
+                    if pd.notna(row["building_bathrooms"])
+                    else None
+                ),
+                building_compartments=(
+                    bool(row["building_compartments"])
+                    if pd.notna(row["building_compartments"])
+                    else None
+                ),
+                has_management=(
+                    bool(row["has_management"])
+                    if pd.notna(row["has_management"])
+                    else None
+                ),
+                # Price Info
+                total_floor_number=(
+                    int(row["total_floor_number"])
+                    if pd.notna(row["total_floor_number"])
+                    else None
+                ),
+                building_floor_number=(
+                    row["building_floor_number"]
+                    if pd.notna(row["building_floor_number"])
+                    else None
+                ),
+                total_price_ntd=row["total_price_ntd"],
+                unit_price_ntd=(
+                    row["unit_price_ntd"] if pd.notna(row["unit_price_ntd"]) else None
+                ),
+                parking_area_sqm=(
+                    row["parking_area_sqm"]
+                    if pd.notna(row["parking_area_sqm"])
+                    else None
+                ),
+                parking_price_ntd=(
+                    row["parking_price_ntd"]
+                    if pd.notna(row["parking_price_ntd"])
+                    else None
+                ),
+                # Additional Info
+                remarks=row["remarks"] if pd.notna(row["remarks"]) else None,
+                serial_number=(
+                    row["serial_number"] if pd.notna(row["serial_number"]) else None
+                ),
             )
             properties.append(prop)
 
@@ -100,8 +177,10 @@ def batch_import(input_pattern: str, batch_size: int = 1000):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--input', required=True, help='Input file pattern (e.g., data/cleaned/*.csv)')
-    parser.add_argument('--batch-size', type=int, default=1000, help='Batch size')
+    parser.add_argument(
+        "--input", required=True, help="Input file pattern (e.g., data/cleaned/*.csv)"
+    )
+    parser.add_argument("--batch-size", type=int, default=1000, help="Batch size")
 
     args = parser.parse_args()
 
