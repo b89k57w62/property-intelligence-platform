@@ -4,7 +4,7 @@ Real estate data query and AI-powered property valuation system.
 
 ## Tech Stack
 
-**Backend**: FastAPI + SQLAlchemy + MySQL  
+**Backend**: FastAPI + SQLAlchemy + MySQL
 **Frontend**: React + TanStack Query
 
 ## Quick Start - Backend
@@ -67,6 +67,50 @@ uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 
 API documentation available at: `http://localhost:8000/api/v1/docs`
 
+## Quick Start - Frontend
+
+### Prerequisites
+- Node.js 18+
+- npm or pnpm
+
+### Installation
+
+```bash
+cd frontend
+
+# Install dependencies
+npm install
+# or
+pnpm install
+```
+
+### Configuration
+
+The frontend connects to the backend API at `http://localhost:8000/api/v1` by default.
+
+To change the API URL, edit `frontend/src/lib/api.ts`:
+```typescript
+const API_BASE_URL = 'http://localhost:8000/api/v1'
+```
+
+### Run Development Server
+
+```bash
+npm run dev
+# or
+pnpm dev
+```
+
+Frontend application available at: `http://localhost:5173`
+
+### Build for Production
+
+```bash
+npm run build
+# or
+pnpm build
+```
+
 ## Project Structure
 
 ```
@@ -80,6 +124,15 @@ backend/
 │   └── services/     # Business logic
 ├── alembic/          # Database migrations
 └── tests/            # Test suite
+
+frontend/
+├── src/
+│   ├── hooks/        # Custom React Query hooks
+│   ├── lib/          # API client & utilities
+│   ├── types/        # TypeScript type definitions
+│   ├── App.tsx       # Root component
+│   └── main.tsx      # Application entry
+└── public/           # Static assets
 ```
 
 ## License
