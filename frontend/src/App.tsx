@@ -1,10 +1,20 @@
+import { Routes, Route } from 'react-router-dom'
+import { Layout } from '@/components/Layout'
+import { Home } from '@/pages/Home'
+import { Transactions } from '@/pages/Transactions'
+import { Presales } from '@/pages/Presales'
+import { Rentals } from '@/pages/Rentals'
+
 function App() {
   return (
-    <div className="min-h-screen bg-background">
-      <h1 className="text-3xl font-bold text-center p-8">
-        Property Intelligence Platform
-      </h1>
-    </div>
+    <Layout>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/transactions" element={<Transactions />} />
+        <Route path="/presales" element={<Presales />} />
+        <Route path="/rentals" element={<Rentals />} />
+      </Routes>
+    </Layout>
   )
 }
 
