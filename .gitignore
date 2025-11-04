@@ -69,3 +69,8 @@ data/
 
 .claude
 CLAUDE.md
+
+# Data import documentation and scripts
+DATA_IMPORT_GUIDE.md
+QUICK_START.md
+backend/scripts/full_import.sh
