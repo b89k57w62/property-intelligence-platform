@@ -37,6 +37,7 @@ yarn.lock
 build/
 dist/
 *.cache
+.vite/
 
 *.env.local
 .env.development.local
