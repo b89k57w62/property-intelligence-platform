@@ -35,12 +35,16 @@ class PropertyPresale(Base):
     serial_number = Column(String(100), comment="編號")
 
     # Transaction & Pre-sale Shared Fields (8) - Shared by Transaction and Pre-sale
-    transaction_date = Column(String(10), nullable=False, index=True, comment="交易年月日")
+    transaction_date = Column(
+        String(10), nullable=False, index=True, comment="交易年月日"
+    )
     transaction_pen_number = Column(String(255), comment="交易筆棟數")
     land_area_sqm = Column(Numeric(15, 2), comment="土地移轉總面積平方公尺")
     building_area_sqm = Column(Numeric(15, 2), comment="建物移轉總面積平方公尺")
     building_floor_number = Column(String(50), comment="建物移轉層次")
-    total_price_ntd = Column(Numeric(20, 2), nullable=False, index=True, comment="總價元")
+    total_price_ntd = Column(
+        Numeric(20, 2), nullable=False, index=True, comment="總價元"
+    )
     parking_area_sqm = Column(Numeric(15, 2), comment="車位移轉總面積平方公尺")
     parking_price_ntd = Column(Numeric(20, 2), comment="車位總價元")
 

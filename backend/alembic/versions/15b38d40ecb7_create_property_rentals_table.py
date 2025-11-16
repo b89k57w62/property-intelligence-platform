@@ -5,6 +5,7 @@ Revises: c1173a115b8f
 Create Date: 2025-11-04 13:24:26.391157
 
 """
+
 from typing import Sequence, Union
 
 from alembic import op
@@ -25,10 +26,15 @@ def upgrade() -> None:
         sa.Column("id", sa.Integer(), autoincrement=True, nullable=False),
         # Common Fields (20)
         sa.Column("district", sa.String(50), nullable=False, comment="鄉鎮市區"),
-        sa.Column("transaction_target", sa.String(50), nullable=True, comment="交易標的"),
+        sa.Column(
+            "transaction_target", sa.String(50), nullable=True, comment="交易標的"
+        ),
         sa.Column("land_section", sa.Text(), nullable=True, comment="土地位置建物門牌"),
         sa.Column(
-            "urban_land_use_type", sa.String(500), nullable=True, comment="都市土地使用分區"
+            "urban_land_use_type",
+            sa.String(500),
+            nullable=True,
+            comment="都市土地使用分區",
         ),
         sa.Column(
             "non_urban_land_use_type",
@@ -48,18 +54,32 @@ def upgrade() -> None:
             "main_building_materials", sa.String(100), nullable=True, comment="主要建材"
         ),
         sa.Column(
-            "construction_complete_date", sa.String(10), nullable=True, comment="建築完成年月"
+            "construction_complete_date",
+            sa.String(10),
+            nullable=True,
+            comment="建築完成年月",
         ),
-        sa.Column("building_rooms", sa.Integer(), nullable=True, comment="建物現況格局-房"),
-        sa.Column("building_halls", sa.Integer(), nullable=True, comment="建物現況格局-廳"),
+        sa.Column(
+            "building_rooms", sa.Integer(), nullable=True, comment="建物現況格局-房"
+        ),
+        sa.Column(
+            "building_halls", sa.Integer(), nullable=True, comment="建物現況格局-廳"
+        ),
         sa.Column(
             "building_bathrooms", sa.Integer(), nullable=True, comment="建物現況格局-衛"
         ),
         sa.Column(
-            "building_compartments", sa.Boolean(), nullable=True, comment="建物現況格局-隔間"
+            "building_compartments",
+            sa.Boolean(),
+            nullable=True,
+            comment="建物現況格局-隔間",
         ),
-        sa.Column("has_management", sa.Boolean(), nullable=True, comment="有無管理組織"),
-        sa.Column("total_floor_number", sa.Integer(), nullable=True, comment="總樓層數"),
+        sa.Column(
+            "has_management", sa.Boolean(), nullable=True, comment="有無管理組織"
+        ),
+        sa.Column(
+            "total_floor_number", sa.Integer(), nullable=True, comment="總樓層數"
+        ),
         sa.Column(
             "unit_price_ntd", sa.Numeric(15, 2), nullable=True, comment="單價元平方公尺"
         ),
@@ -69,12 +89,20 @@ def upgrade() -> None:
         # Rental-Only Fields (16)
         sa.Column("city", sa.String(50), nullable=False, comment="縣市"),
         sa.Column("rental_date", sa.String(10), nullable=False, comment="租賃年月日"),
-        sa.Column("rental_pen_number", sa.String(255), nullable=True, comment="租賃筆棟數"),
         sa.Column(
-            "land_area_sqm", sa.Numeric(15, 2), nullable=True, comment="土地面積平方公尺"
+            "rental_pen_number", sa.String(255), nullable=True, comment="租賃筆棟數"
         ),
         sa.Column(
-            "building_area_sqm", sa.Numeric(15, 2), nullable=True, comment="建物總面積平方公尺"
+            "land_area_sqm",
+            sa.Numeric(15, 2),
+            nullable=True,
+            comment="土地面積平方公尺",
+        ),
+        sa.Column(
+            "building_area_sqm",
+            sa.Numeric(15, 2),
+            nullable=True,
+            comment="建物總面積平方公尺",
         ),
         sa.Column(
             "building_floor_number", sa.String(50), nullable=True, comment="租賃層次"
@@ -85,10 +113,17 @@ def upgrade() -> None:
         sa.Column("rental_period", sa.String(100), nullable=True, comment="租賃期間"),
         sa.Column("has_elevator", sa.Boolean(), nullable=True, comment="有無電梯"),
         sa.Column("equipment", sa.Text(), nullable=True, comment="附屬設備"),
-        sa.Column("rental_service", sa.String(100), nullable=True, comment="租賃住宅服務"),
-        sa.Column("monthly_rent_ntd", sa.Numeric(15, 2), nullable=False, comment="總額元"),
         sa.Column(
-            "parking_area_sqm", sa.Numeric(15, 2), nullable=True, comment="車位面積平方公尺"
+            "rental_service", sa.String(100), nullable=True, comment="租賃住宅服務"
+        ),
+        sa.Column(
+            "monthly_rent_ntd", sa.Numeric(15, 2), nullable=False, comment="總額元"
+        ),
+        sa.Column(
+            "parking_area_sqm",
+            sa.Numeric(15, 2),
+            nullable=True,
+            comment="車位面積平方公尺",
         ),
         sa.Column(
             "parking_rent_ntd", sa.Numeric(15, 2), nullable=True, comment="車位總額元"

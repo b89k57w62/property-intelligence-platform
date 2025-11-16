@@ -2,7 +2,8 @@
 
 from typing import Optional, List
 from decimal import Decimal
-from pydantic import BaseModel, ConfigDict
+from datetime import datetime
+from pydantic import BaseModel, ConfigDict, computed_field
 
 
 class PropertyTransactionResponse(BaseModel):
@@ -50,6 +51,30 @@ class PropertyTransactionResponse(BaseModel):
     has_elevator: Optional[bool] = None
 
     model_config = ConfigDict(from_attributes=True)
+
+    @computed_field
+    @property
+    def building_age(self) -> Optional[int]:
+        """Calculate building age in years (current year - construction year)."""
+        if not self.construction_complete_date:
+            return None
+
+        try:
+            # Get current ROC year (Taiwan calendar)
+            current_roc_year = datetime.now().year - 1911
+
+            # Parse construction year from ROC date format
+            # Format: "YYMMDD" (6 chars, 2-digit year) or "YYYMMDD" (7 chars, 3-digit year)
+            date_str = self.construction_complete_date
+            if len(date_str) <= 6:
+                construction_year = int(date_str[:2])  # "751024" -> 75
+            else:
+                construction_year = int(date_str[:3])  # "1051215" -> 105
+
+            age = current_roc_year - construction_year
+            return age if age >= 0 else None
+        except (ValueError, TypeError):
+            return None
 
 
 class PropertyTransactionSearchResponse(BaseModel):

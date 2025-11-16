@@ -39,6 +39,12 @@ def search_transactions(
     price_max: Optional[int] = Query(None, description="Maximum total price (NTD)"),
     building_types: Optional[List[str]] = Query(None, description="Building types"),
     has_elevator: Optional[bool] = Query(None, description="Has elevator"),
+    age_min: Optional[int] = Query(
+        None, ge=0, description="Minimum building age (years)"
+    ),
+    age_max: Optional[int] = Query(
+        None, ge=0, description="Maximum building age (years)"
+    ),
     skip: int = Query(0, ge=0, description="Records to skip"),
     limit: int = Query(20, ge=1, le=100, description="Max records to return"),
     db: Session = Depends(get_db),
@@ -55,6 +61,8 @@ def search_transactions(
         "price_max": price_max,
         "building_types": building_types,
         "has_elevator": has_elevator,
+        "age_min": age_min,
+        "age_max": age_max,
     }
 
     filters = {k: v for k, v in filters.items() if v is not None}
