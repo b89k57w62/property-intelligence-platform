@@ -10,7 +10,7 @@ export function Header() {
     <header className="border-b bg-background">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <Link to="/" className="text-xl font-semibold text-foreground hover:text-primary transition-colors">
-          Property Intelligence
+          實價登錄PoC
         </Link>
 
         <div className="flex items-center gap-6">
@@ -19,19 +19,19 @@ export function Header() {
               to="/transactions"
               className="text-sm font-medium text-foreground hover:text-primary transition-colors"
             >
-              Transactions
+              買賣查詢
             </Link>
             <Link
               to="/presales"
               className="text-sm font-medium text-foreground hover:text-primary transition-colors"
             >
-              Presales
+              預售屋查詢
             </Link>
             <Link
               to="/rentals"
               className="text-sm font-medium text-foreground hover:text-primary transition-colors"
             >
-              Rentals
+              租賃查詢
             </Link>
           </nav>
 

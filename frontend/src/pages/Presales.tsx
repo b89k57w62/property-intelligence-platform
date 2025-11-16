@@ -65,9 +65,9 @@ export function Presales() {
     <PageTransition>
       <div className="space-y-4">
       <div>
-        <h1 className="text-2xl font-bold text-foreground">Property Presales</h1>
+        <h1 className="text-2xl font-bold text-foreground">預售屋查詢</h1>
         <p className="text-muted-foreground">
-          Total: {data?.total || 0} records
+          共 {data?.total || 0} 筆
         </p>
       </div>
 

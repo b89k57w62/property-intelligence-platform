@@ -43,6 +43,7 @@ export interface PropertyTransaction {
   auxiliary_building_area: string | null
   balcony_area: string | null
   has_elevator: boolean | null
+  building_age: number | null
 }
 
 // Property Presale
@@ -131,6 +132,8 @@ export interface SearchParams {
   district?: string
   price_min?: number
   price_max?: number
+  age_min?: number
+  age_max?: number
   order_by?: string
   order_desc?: boolean
 }
