@@ -3,6 +3,7 @@ import { usePresales } from '@/hooks/usePresales'
 import { Pagination } from '@/components/Pagination'
 import { SearchFilters } from '@/components/SearchFilters'
 import { PageTransition } from '@/components/PageTransition'
+import { QueryWrapper } from '@/components/QueryWrapper'
 import {
   Table,
   TableBody,
@@ -22,7 +23,7 @@ export function Presales() {
   }>({})
   const pageSize = 20
 
-  const { data, isLoading, error } = usePresales({
+  const { data, isLoading, error, prefetchNextPage } = usePresales({
     skip: (currentPage - 1) * pageSize,
     limit: pageSize,
     ...filters,
@@ -43,79 +44,70 @@ export function Presales() {
     setCurrentPage(1)
   }
 
-  if (isLoading) {
-    return (
-      <PageTransition>
-        <div className="text-center py-8 text-foreground">Loading...</div>
-      </PageTransition>
-    )
-  }
-
-  if (error) {
-    return (
-      <PageTransition>
-        <div className="text-center py-8 text-destructive">
-          Error loading presales
-        </div>
-      </PageTransition>
-    )
-  }
-
   return (
     <PageTransition>
-      <div className="space-y-4">
-      <div>
-        <h1 className="text-2xl font-bold text-foreground">預售屋查詢</h1>
-        <p className="text-muted-foreground">
-          共 {data?.total || 0} 筆
-        </p>
-      </div>
+      <QueryWrapper
+        isLoading={isLoading}
+        isError={!!error}
+        error={error}
+        loadingMessage="載入預售屋資料中..."
+        errorMessage="無法載入預售屋資料"
+      >
+        <div className="space-y-4">
+          <div>
+            <h1 className="text-2xl font-bold text-foreground">預售屋查詢</h1>
+            <p className="text-muted-foreground">
+              共 {data?.total || 0} 筆
+            </p>
+          </div>
 
-      <SearchFilters onSearch={handleSearch} />
+          <SearchFilters onSearch={handleSearch} />
 
-      <div className="border rounded-lg overflow-hidden">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Project</TableHead>
-              <TableHead>City</TableHead>
-              <TableHead>District</TableHead>
-              <TableHead>Location</TableHead>
-              <TableHead className="text-right">Price (NTD)</TableHead>
-              <TableHead className="text-right">Area (m²)</TableHead>
-              <TableHead>Date</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {data?.items.map((presale) => (
-              <TableRow key={presale.id}>
-                <TableCell className="font-medium">
-                  {presale.project_name || '-'}
-                </TableCell>
-                <TableCell>{presale.city || '-'}</TableCell>
-                <TableCell>{presale.district || '-'}</TableCell>
-                <TableCell className="max-w-xs truncate">
-                  {presale.land_section || '-'}
-                </TableCell>
-                <TableCell className="text-right">
-                  {presale.total_price_ntd ? parseFloat(presale.total_price_ntd).toLocaleString() : '-'}
-                </TableCell>
-                <TableCell className="text-right">
-                  {presale.building_area_sqm ? parseFloat(presale.building_area_sqm).toFixed(2) : '-'}
-                </TableCell>
-                <TableCell>{presale.transaction_date || '-'}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+          <div className="border rounded-lg overflow-hidden">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Project</TableHead>
+                  <TableHead>City</TableHead>
+                  <TableHead>District</TableHead>
+                  <TableHead>Location</TableHead>
+                  <TableHead className="text-right">Price (NTD)</TableHead>
+                  <TableHead className="text-right">Area (m²)</TableHead>
+                  <TableHead>Date</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {data?.items.map((presale) => (
+                  <TableRow key={presale.id}>
+                    <TableCell className="font-medium">
+                      {presale.project_name || '-'}
+                    </TableCell>
+                    <TableCell>{presale.city || '-'}</TableCell>
+                    <TableCell>{presale.district || '-'}</TableCell>
+                    <TableCell className="max-w-xs truncate">
+                      {presale.land_section || '-'}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      {presale.total_price_ntd ? parseFloat(presale.total_price_ntd).toLocaleString() : '-'}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      {presale.building_area_sqm ? parseFloat(presale.building_area_sqm).toFixed(2) : '-'}
+                    </TableCell>
+                    <TableCell>{presale.transaction_date || '-'}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
 
-        <Pagination
-          currentPage={currentPage}
-          totalPages={data?.total_pages || 1}
-          onPageChange={setCurrentPage}
-        />
-      </div>
-    </div>
+            <Pagination
+              currentPage={currentPage}
+              totalPages={data?.total_pages || 1}
+              onPageChange={setCurrentPage}
+              onPageHover={(page) => prefetchNextPage(page, pageSize)}
+            />
+          </div>
+        </div>
+      </QueryWrapper>
     </PageTransition>
   )
 }
