@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { Loader2 } from 'lucide-react'
+import { Loader2, AlertCircle } from 'lucide-react'
 
 interface QueryWrapperProps {
   isLoading: boolean
@@ -33,7 +33,7 @@ export function QueryWrapper({
     return (
       <div className="flex items-center justify-center py-12">
         <div className="text-center max-w-md">
-          <div className="text-destructive text-5xl mb-4">⚠️</div>
+          <AlertCircle className="h-12 w-12 text-destructive mx-auto mb-4" />
           <h3 className="text-lg font-semibold text-foreground mb-2">
             {errorMessage}
           </h3>
