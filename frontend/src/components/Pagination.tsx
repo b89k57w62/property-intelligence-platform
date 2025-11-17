@@ -12,9 +12,10 @@ interface PaginationProps {
   currentPage: number
   totalPages: number
   onPageChange: (page: number) => void
+  onPageHover?: (page: number) => void
 }
 
-export function Pagination({ currentPage, totalPages, onPageChange }: PaginationProps) {
+export function Pagination({ currentPage, totalPages, onPageChange, onPageHover }: PaginationProps) {
   const getPageNumbers = () => {
     const pages: (number | 'ellipsis')[] = []
     const maxVisible = 7
@@ -53,6 +54,7 @@ export function Pagination({ currentPage, totalPages, onPageChange }: Pagination
           <PaginationItem>
             <PaginationPrevious
               onClick={() => currentPage > 1 && onPageChange(currentPage - 1)}
+              onMouseEnter={() => currentPage > 1 && onPageHover?.(currentPage - 1)}
               className={currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
             />
           </PaginationItem>
@@ -64,6 +66,7 @@ export function Pagination({ currentPage, totalPages, onPageChange }: Pagination
               ) : (
                 <PaginationLink
                   onClick={() => onPageChange(page)}
+                  onMouseEnter={() => onPageHover?.(page)}
                   isActive={currentPage === page}
                   className="cursor-pointer"
                 >
@@ -76,6 +79,7 @@ export function Pagination({ currentPage, totalPages, onPageChange }: Pagination
           <PaginationItem>
             <PaginationNext
               onClick={() => currentPage < totalPages && onPageChange(currentPage + 1)}
+              onMouseEnter={() => currentPage < totalPages && onPageHover?.(currentPage + 1)}
               className={currentPage === totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
             />
           </PaginationItem>
