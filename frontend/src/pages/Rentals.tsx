@@ -3,6 +3,7 @@ import { useRentals } from '@/hooks/useRentals'
 import { Pagination } from '@/components/Pagination'
 import { SearchFilters } from '@/components/SearchFilters'
 import { PageTransition } from '@/components/PageTransition'
+import { QueryWrapper } from '@/components/QueryWrapper'
 import {
   Table,
   TableBody,
@@ -22,7 +23,7 @@ export function Rentals() {
   }>({})
   const pageSize = 20
 
-  const { data, isLoading, error } = useRentals({
+  const { data, isLoading, error, prefetchNextPage } = useRentals({
     skip: (currentPage - 1) * pageSize,
     limit: pageSize,
     ...filters,
@@ -43,79 +44,70 @@ export function Rentals() {
     setCurrentPage(1)
   }
 
-  if (isLoading) {
-    return (
-      <PageTransition>
-        <div className="text-center py-8 text-foreground">Loading...</div>
-      </PageTransition>
-    )
-  }
-
-  if (error) {
-    return (
-      <PageTransition>
-        <div className="text-center py-8 text-destructive">
-          Error loading rentals
-        </div>
-      </PageTransition>
-    )
-  }
-
   return (
     <PageTransition>
-      <div className="space-y-4">
-      <div>
-        <h1 className="text-2xl font-bold text-foreground">租賃查詢</h1>
-        <p className="text-muted-foreground">
-          共 {data?.total || 0} 筆
-        </p>
-      </div>
+      <QueryWrapper
+        isLoading={isLoading}
+        isError={!!error}
+        error={error}
+        loadingMessage="載入租賃資料中..."
+        errorMessage="無法載入租賃資料"
+      >
+        <div className="space-y-4">
+          <div>
+            <h1 className="text-2xl font-bold text-foreground">租賃查詢</h1>
+            <p className="text-muted-foreground">
+              共 {data?.total || 0} 筆
+            </p>
+          </div>
 
-      <SearchFilters onSearch={handleSearch} />
+          <SearchFilters onSearch={handleSearch} />
 
-      <div className="border rounded-lg overflow-hidden">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>City</TableHead>
-              <TableHead>District</TableHead>
-              <TableHead>Type</TableHead>
-              <TableHead className="text-right">Area (m²)</TableHead>
-              <TableHead className="text-right">Monthly Rent (NTD)</TableHead>
-              <TableHead>Furniture</TableHead>
-              <TableHead>Date</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {data?.items.map((rental) => (
-              <TableRow key={rental.id}>
-                <TableCell>{rental.city || '-'}</TableCell>
-                <TableCell>{rental.district || '-'}</TableCell>
-                <TableCell className="max-w-xs truncate">
-                  {rental.transaction_target || '-'}
-                </TableCell>
-                <TableCell className="text-right">
-                  {rental.building_area_sqm ? parseFloat(rental.building_area_sqm).toFixed(2) : '-'}
-                </TableCell>
-                <TableCell className="text-right">
-                  {rental.monthly_rent_ntd ? parseFloat(rental.monthly_rent_ntd).toLocaleString() : '-'}
-                </TableCell>
-                <TableCell>
-                  {rental.has_furniture ? 'Yes' : 'No'}
-                </TableCell>
-                <TableCell>{rental.rental_date || '-'}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+          <div className="border rounded-lg overflow-hidden">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>City</TableHead>
+                  <TableHead>District</TableHead>
+                  <TableHead>Type</TableHead>
+                  <TableHead className="text-right">Area (m²)</TableHead>
+                  <TableHead className="text-right">Monthly Rent (NTD)</TableHead>
+                  <TableHead>Furniture</TableHead>
+                  <TableHead>Date</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {data?.items.map((rental) => (
+                  <TableRow key={rental.id}>
+                    <TableCell>{rental.city || '-'}</TableCell>
+                    <TableCell>{rental.district || '-'}</TableCell>
+                    <TableCell className="max-w-xs truncate">
+                      {rental.transaction_target || '-'}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      {rental.building_area_sqm ? parseFloat(rental.building_area_sqm).toFixed(2) : '-'}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      {rental.monthly_rent_ntd ? parseFloat(rental.monthly_rent_ntd).toLocaleString() : '-'}
+                    </TableCell>
+                    <TableCell>
+                      {rental.has_furniture ? 'Yes' : 'No'}
+                    </TableCell>
+                    <TableCell>{rental.rental_date || '-'}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
 
-        <Pagination
-          currentPage={currentPage}
-          totalPages={data?.total_pages || 1}
-          onPageChange={setCurrentPage}
-        />
-      </div>
-    </div>
+            <Pagination
+              currentPage={currentPage}
+              totalPages={data?.total_pages || 1}
+              onPageChange={setCurrentPage}
+              onPageHover={(page) => prefetchNextPage(page, pageSize)}
+            />
+          </div>
+        </div>
+      </QueryWrapper>
     </PageTransition>
   )
 }
